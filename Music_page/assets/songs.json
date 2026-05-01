@@ -1,0 +1,32 @@
+[
+  {
+    "file": "assets/songs/song1.mp3",
+    "artist": "Arijit Singh",
+    "genre": "romantic"
+  },
+  {
+    "file": "assets/songs/song2.mp3",
+    "artist": "Arijit Singh",
+    "genre": "sad"
+  },
+  {
+    "file": "assets/songs/song3.mp3",
+    "artist": "Neha Kakkar",
+    "genre": "party"
+  },
+  {
+    "file": "assets/songs/song4.mp3",
+    "artist": "Atif Aslam",
+    "genre": "romantic"
+  },
+  {
+    "file": "assets/songs/song5.mp3",
+    "artist": "KK",
+    "genre": "sad"
+  },
+  {
+    "file": "assets/songs/Rabindra_Sangeet.mp3",
+    "artist": "Rabindra",
+    "genre": "classical"
+  }
+]

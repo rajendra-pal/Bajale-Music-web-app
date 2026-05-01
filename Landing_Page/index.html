@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bajale | Hackathon 2026</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
+
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!--  Bajale Logo  -->
+    <div class="site-logo">
+        <div class="logo-main">
+            <div class="logo-icon"></div>
+            <div class="logo-text">bajale</div>
+        </div>
+        <div class="logo-tagline">PLAY IT • FEEL IT • LIVE IT</div>
+    </div>
+
+    <!-- Bulb System -->
+    <div class="bulb-container" id="bulbContainer">
+        <div class="wire"></div>
+        <div class="chain" id="chain"></div>
+        <div class="bulb" id="bulb">
+            <div class="bulb-glow"></div>
+        </div>
+        <span class="bulb-hint">PULL</span>
+    </div>
+
+    <!-- Login And Signup -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-card">
+            <!-- Close Button -->
+            <button class="modal-close" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-headphones"></i>
+                </div>
+                <h2 id="modalTitle">Welcome Back</h2>
+                <p id="modalDesc">Sign in to continue your musical journey</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="loginTab">
+                    <i class="fas fa-right-to-bracket"></i> Login
+                </button>
+                <button class="auth-tab" id="signupTab">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <form class="auth-form" id="loginForm">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+                <button type="submit" class="auth-submit-btn">
+                    <span>Login Now</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <!-- Signup Form (Hidden) -->
+            <form class="auth-form" id="signupForm" style="display: none;">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Full Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Create Password" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Confirm Password" required>
+                </div>
+                <button type="submit" class="auth-submit-btn">
+                    <span>Create Account</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <!-- Social Login -->
+            <div class="social-login">
+                <p>Or continue with</p>
+                <div class="social-buttons">
+                    <button class="social-btn google">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button class="social-btn github">
+                        <i class="fab fa-github"></i>
+                    </button>
+                    <button class="social-btn discord">
+                        <i class="fab fa-discord"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-badge" data-aos="fade-down">
+                <i class="fas fa-music"></i>
+                <span>Welcome To Bajale Website</span>
+            </div>
+
+            <h1 data-aos="fade-up" data-aos-delay="100">
+                <span class="gradient-text">FEEL</span><br>
+                THE <span class="outline-text">BEAT</span>
+            </h1>
+
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                Immersive 3D Audio Experience • 5000+ Tracks • Zero Ads
+            </p>
+
+            <button class="play-now-btn" id="playNowBtn" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-play"></i>
+                PLAY NOW
+                <span class="btn-glow"></span>
+            </button>
+
+            <!-- Stats -->
+            <div class="stats-container" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <span class="stat-number">5.2M+</span>
+                    <span class="stat-label">Active Users</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-wave-square"></i>
+                    <span class="stat-number">320kbps</span>
+                    <span class="stat-label">HD Quality</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-list"></i>
+                    <span class="stat-number">50K+</span>
+                    <span class="stat-label">Playlists</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-music"></i>
+                    <span class="stat-number">Ad-Free</span>
+                    <span class="stat-label">Music</span>
+                </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <h2 class="section-title" data-aos="fade-up">Why Choose <span class="gradient-text">Bajale</span>
+            </h2>
+
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <h3>Spatial Audio</h3>
+                    <p>Experience 360° surround sound that puts you inside the music</p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Zero Buffer</h3>
+                    <p>Lightning-fast streaming with adaptive bitrate technology</p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Dynamic Themes</h3>
+                    <p>Pull the bulb to switch between stunning color themes</p>
+                </div>
+            </div>
+        </section>
+        <!--  4D Music Showcase Section  -->
+        <section class="showcase-section">
+            <div class="showcase-container">
+
+                <!-- Music Robot Title -->
+                <div class="robot-title-wrapper" data-aos="fade-down">
+                    <h2 class="robot-main-title">Music Robot</h2>
+                    <div class="robot-glow-line"></div>
+                </div>
+
+                <!-- Spline 3D Robot -->
+                <div class="robot-3d-wrapper" data-aos="zoom-in" data-aos-duration="1200">
+                    <script type="module"
+                        src="https://unpkg.com/@splinetool/viewer@1.9.59/build/spline-viewer.js"></script>
+                    <spline-viewer url="https://prod.spline.design/a8TPF61Js770tkHp/scene.splinecode"
+                        class="spline-viewer-robot"></spline-viewer>
+                </div>
+
+                <!-- Sound Wave Animation -->
+                <div class="sound-wave-container" data-aos="fade-up" data-aos-delay="200">
+                    <div class="sound-wave">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                </div>
+
+                <!-- Feature Cards  -->
+                <div class="music-feature-cards">
+
+                    <div class="music-card" data-aos="fade-right" data-aos-delay="100">
+                        <div class="music-card-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3>4D Music</h3>
+                        <p>Experience sound that moves around you in 4 dimensions. Feel every beat with spatial
+                            audio
+                            precision.</p>
+                        <div class="card-hover-effect"></div>
+                    </div>
+                    <div class="music-card featured" data-aos="fade-up" data-aos-delay="200">
+                        <div class="music-card-badge">PRO</div>
+                        <div class="music-card-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <h3>Play Dolby Atmos</h3>
+                        <p>Cinematic sound quality with Dolby Atmos support. Immerse yourself in studio-grade audio.
+                        </p>
+                        <div class="card-hover-effect"></div>
+                    </div>
+
+                    <div class="music-card" data-aos="fade-left" data-aos-delay="300">
+                        <div class="music-card-icon">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        <h3>Song Play</h3>
+                        <p>50,000+ songs ready to stream. Zero lag, HD quality, and smart playlist generation.</p>
+                        <div class="card-hover-effect"></div>
+                    </div>
+                    <div class="music-card" data-aos="fade-right" data-aos-delay="400">
+                        <div class="music-card-icon">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <h3>Ad-Free Music</h3>
+                        <p>Enjoy uninterrupted playback with zero ads.</p>
+                        <div class="card-hover-effect"></div>
+                    </div>
+                    <div class="music-card" data-aos="fade-up" data-aos-delay="500">
+                        <div class="music-card-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h3>Offline Download</h3>
+                        <p>Save your favorite tracks and listen without internet.</p>
+                        <div class="card-hover-effect"></div>
+                    </div>
+                    <div class="music-card" data-aos="fade-left" data-aos-delay="600">
+                        <div class="music-card-icon">
+                            <i class="fas fa-wave-square"></i>
+                        </div>
+                        <h3>High-Res Audio</h3>
+                        <p>Studio-quality sound with lossless formats.</p>
+                        <div class="card-hover-effect"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 NeonBeats • Built with ❤️ Subrata & Shubhranil</p>
+            <p class="shortcut-hint">Press <kbd>Space</kbd> to change theme • <kbd>Esc</kbd> to close modal</p>
+        </footer>
+    </main>
+
+    <!-- Scripts -->
+     
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

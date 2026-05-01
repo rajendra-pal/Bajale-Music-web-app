@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1200" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="65%" r="60%">
+      <stop offset="0%" stop-color="#3a2200" stop-opacity="0.8" />
+      <stop offset="40%" stop-color="#140a00" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#0a0806" stop-opacity="0" />
+    </radialGradient>
+
+    <linearGradient id="brassDark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1c140c" />
+      <stop offset="15%" stop-color="#5a4220" />
+      <stop offset="50%" stop-color="#c69b56" />
+      <stop offset="85%" stop-color="#4a351a" />
+      <stop offset="100%" stop-color="#150f08" />
+    </linearGradient>
+
+    <linearGradient id="brassLight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2a1f14" />
+      <stop offset="20%" stop-color="#8c6a38" />
+      <stop offset="50%" stop-color="#ebd48f" />
+      <stop offset="80%" stop-color="#7a5828" />
+      <stop offset="100%" stop-color="#1f160b" />
+    </linearGradient>
+
+    <linearGradient id="chainLink" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#221810" />
+      <stop offset="30%" stop-color="#a47d44" />
+      <stop offset="70%" stop-color="#d6b573" />
+      <stop offset="100%" stop-color="#2a1f14" />
+    </linearGradient>
+
+    <radialGradient id="glassCore" cx="50%" cy="55%" r="50%">
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.0" />
+      <stop offset="70%" stop-color="#ffcc66" stop-opacity="0.05" />
+      <stop offset="90%" stop-color="#ffaa00" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#ff7700" stop-opacity="0.35" />
+    </radialGradient>
+
+    <filter id="glowHeavy" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="40" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="glowSoft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="15" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="glowCore" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="blurReflect">
+      <feGaussianBlur stdDeviation="3" />
+    </filter>
+
+    <g id="linkFront">
+      <rect x="-18" y="-30" width="36" height="65" rx="18" fill="none" stroke="url(#chainLink)" stroke-width="12" />
+      <rect x="-14" y="-26" width="28" height="57" rx="14" fill="none" stroke="#ebd48f" stroke-width="1.5" opacity="0.6" />
+    </g>
+
+    <g id="linkSide">
+      <path d="M -12 -25 C -22 0, -22 0, -12 25" stroke="url(#brassDark)" stroke-width="14" fill="none" stroke-linecap="round" />
+      <path d="M 12 -25 C 22 0, 22 0, 12 25" stroke="url(#brassLight)" stroke-width="14" fill="none" stroke-linecap="round" />
+      <path d="M 14 -20 C 22 0, 22 0, 14 20" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4" />
+    </g>
+  </defs>
+
+  <rect width="100%" height="100%" fill="transparent" />
+
+  <g fill="#ffdd88" filter="url(#blurReflect)" class="dust-motes">
+    <circle cx="350" cy="700" r="2" opacity="0.6" />
+    <circle cx="280" cy="850" r="3" opacity="0.4" />
+    <circle cx="390" cy="950" r="1.5" opacity="0.8" />
+    <circle cx="650" cy="720" r="2.5" opacity="0.5" />
+    <circle cx="720" cy="880" r="2" opacity="0.7" />
+    <circle cx="600" cy="980" r="1.5" opacity="0.6" />
+    <circle cx="450" cy="1050" r="3" opacity="0.3" />
+    <circle cx="550" cy="1020" r="2" opacity="0.5" />
+    <circle cx="320" cy="600" r="1.5" opacity="0.7" />
+    <circle cx="700" cy="620" r="2" opacity="0.4" />
+    <circle cx="200" cy="780" r="3" opacity="0.2" />
+    <circle cx="800" cy="800" r="2.5" opacity="0.3" />
+    <circle cx="380" cy="550" r="1.5" opacity="0.5" />
+    <circle cx="620" cy="580" r="2" opacity="0.6" />
+  </g>
+
+  <g transform="translate(500, 0)" class="chain-group" style="transform-origin: 500px 0px;">
+    <use href="#linkSide" y="-10" />
+    <use href="#linkFront" y="25" />
+    <use href="#linkSide" y="65" />
+    <use href="#linkFront" y="100" />
+    <use href="#linkSide" y="140" />
+    <use href="#linkFront" y="175" />
+    <use href="#linkSide" y="215" />
+    <use href="#linkFront" y="250" />
+    <use href="#linkSide" y="290" />
+  </g>
+
+  <g id="brassBase">
+    <path d="M 470 310 C 470 275, 530 275, 530 310" fill="none" stroke="url(#brassLight)" stroke-width="18" />
+    <rect x="465" y="310" width="70" height="24" rx="5" fill="url(#brassDark)" />
+    <rect x="465" y="310" width="70" height="24" rx="5" fill="none" stroke="#ebd48f" stroke-width="1.5" opacity="0.3" />
+    <path d="M 425 390 C 425 320, 575 320, 575 390 Z" fill="url(#brassLight)" />
+    <path d="M 425 390 C 425 320, 575 320, 575 390 Z" fill="none" stroke="#ebd48f" stroke-width="2" opacity="0.5" />
+    <rect x="415" y="390" width="170" height="22" rx="5" fill="url(#brassDark)" />
+    <rect x="415" y="415" width="170" height="22" rx="5" fill="url(#brassLight)" />
+    <rect x="405" y="442" width="190" height="40" rx="8" fill="url(#brassDark)" />
+    <rect x="405" y="442" width="190" height="40" rx="8" fill="none" stroke="#ebd48f" stroke-width="2.5" opacity="0.5" />
+    <line x1="410" y1="452" x2="590" y2="452" stroke="#ebd48f" stroke-width="1.5" opacity="0.3" />
+    <line x1="410" y1="472" x2="590" y2="472" stroke="#ebd48f" stroke-width="1.5" opacity="0.3" />
+    <rect x="415" y="486" width="170" height="18" rx="4" fill="url(#brassLight)" />
+    <rect x="425" y="508" width="150" height="16" rx="3" fill="url(#brassDark)" />
+  </g>
+
+  <circle cx="500" cy="800" r="280" fill="#ff7700" opacity="0.12" filter="url(#glowHeavy)" class="bulb-ambient-glow-outer" />
+  <circle cx="500" cy="800" r="180" fill="#ffaa00" opacity="0.20" filter="url(#glowHeavy)" class="bulb-ambient-glow-inner" />
+
+  <g id="filamentAssembly">
+    <path d="M 478 520 L 478 650 L 455 710 L 545 710 L 522 650 L 522 520 Z" fill="#ffffff" opacity="0.04" />
+    <path d="M 478 520 L 478 650 L 455 710 L 545 710 L 522 650 L 522 520 Z" fill="none" stroke="#ffdd88" stroke-width="2" opacity="0.3" filter="url(#blurReflect)" />
+    <path d="M 465 700 L 445 840 L 500 890 L 555 840 L 535 700" fill="none" stroke="#553311" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 480 700 L 468 830 L 500 870 L 532 830 L 520 700" fill="none" stroke="#553311" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 468 700 L 448 840 L 500 885 L 552 840 L 532 700" fill="none" stroke="#ff7700" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowSoft)" class="filament-glow-outer" />
+    <path d="M 468 700 L 448 840 L 500 885 L 552 840 L 532 700" fill="none" stroke="#ffbb44" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowCore)" class="filament-core-outer" />
+    <path d="M 468 700 L 448 840 L 500 885 L 552 840 L 532 700" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="filament-bright-outer" />
+    <path d="M 482 700 L 470 825 L 500 860 L 530 825 L 518 700" fill="none" stroke="#ff6600" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowSoft)" class="filament-glow-inner" />
+    <path d="M 482 700 L 470 825 L 500 860 L 530 825 L 518 700" fill="none" stroke="#ffaa00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="filament-core-inner" />
+    <circle cx="500" cy="870" r="12" fill="#ffaa00" filter="url(#glowSoft)" opacity="0.8" class="junction-glow" />
+    <circle cx="500" cy="870" r="6" fill="#ffffff" filter="url(#glowCore)" opacity="0.9" class="junction-core" />
+  </g>
+
+  <circle cx="500" cy="840" r="45" fill="#ffffff" filter="url(#glowHeavy)" opacity="0.6" class="central-glow-heavy" />
+  <circle cx="500" cy="840" r="18" fill="#ffffff" filter="url(#glowCore)" opacity="0.9" class="central-glow-core" />
+
+  <g id="glassBulb">
+    <path d="M 430 520 C 430 620, 250 670, 250 840 C 250 1000, 380 1100, 495 1120 C 500 1127, 500 1127, 505 1120 C 620 1100, 750 1000, 750 840 C 750 670, 570 620, 570 520 Z" fill="url(#glassCore)" />
+    <path d="M 430 520 C 430 620, 250 670, 250 840 C 250 1000, 380 1100, 495 1120 C 500 1127, 500 1127, 505 1120 C 620 1100, 750 1000, 750 840 C 750 670, 570 620, 570 520 Z" fill="none" stroke="#ff9900" stroke-width="14" opacity="0.5" filter="url(#glowSoft)" class="glass-edge-glow" />
+    <path d="M 430 520 C 430 620, 250 670, 250 840 C 250 1000, 380 1100, 495 1120 C 500 1127, 500 1127, 505 1120 C 620 1100, 750 1000, 750 840 C 750 670, 570 620, 570 520 Z" fill="none" stroke="#ffcc66" stroke-width="5" opacity="0.7" filter="url(#blurReflect)" class="glass-edge-sharp" />
+    <path d="M 305 700 C 260 780, 270 930, 360 1020" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" opacity="0.25" filter="url(#blurReflect)" />
+    <path d="M 295 715 C 250 790, 260 920, 350 1010" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.6" />
+    <path d="M 695 700 C 740 780, 730 930, 640 1020" fill="none" stroke="#ffaa00" stroke-width="9" stroke-linecap="round" opacity="0.3" filter="url(#glowSoft)" class="glass-bounce-right" />
+    <path d="M 705 715 C 750 790, 740 920, 650 1010" fill="none" stroke="#ffcc66" stroke-width="2.5" stroke-linecap="round" opacity="0.5" />
+    <path d="M 420 540 C 360 570, 300 630, 270 690" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.3" filter="url(#blurReflect)" />
+    <path d="M 580 540 C 640 570, 700 630, 730 690" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.15" filter="url(#blurReflect)" />
+    <path d="M 320 810 C 320 890, 390 970, 460 1000" fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round" opacity="0.06" filter="url(#glowSoft)" />
+    <path d="M 493 1095 C 497 1108, 499 1118, 503 1124" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" opacity="0.8" />
+    <path d="M 497 1098 C 500 1108, 501 1115, 504 1120" fill="none" stroke="#ffcc66" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
+  </g>
+</svg>

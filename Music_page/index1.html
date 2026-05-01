@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bajale Music - Web Player</title>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- AOS Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="Style1.css">
+</head>
+
+<body>
+    <!-- Bajale Logo -->
+    <div class="site-logo">
+        <div class="logo-main">
+            <div class="logo-icon"></div>
+            <div class="logo-text">bajale</div>
+        </div>
+        <div class="logo-tagline">PLAY IT • FEEL IT • LIVE IT</div>
+    </div>
+
+    <!-- Bulb System -->
+    <div class="bulb-container" id="bulbContainer"></div>
+
+    <!-- ===== NAVBAR with song info ===== -->
+    <div class="music-navbar" id="musicNavbar">
+        <!-- Left: Song Thumbnail + Info (click → full player) -->
+        <div class="nav-left-info" id="navLeftInfo" style="display:none; cursor:pointer;" onclick="openFullPlayer()">
+            <img id="navThumb" src="" alt="">
+            <div class="nav-song-info">
+                <span id="navTitle">Song Title</span>
+                <span id="navArtist">Artist</span>
+            </div>
+        </div>
+
+        <div class="nav-controls">
+            <i class="fas fa-random" id="shuffleBtn" title="Shuffle"></i>
+            <i class="fas fa-backward" id="prevBtn" title="Previous"></i>
+            <i class="fas fa-play" id="playPauseBtn" title="Play/Pause"></i>
+            <i class="fas fa-forward" id="nextBtn" title="Next"></i>
+            <i class="fas fa-redo" id="repeatBtn" title="Repeat"></i>
+        </div>
+
+        <!-- Right: Volume + User -->
+        <div class="nav-right">
+            <i class="fas fa-volume-up"></i>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70">
+            <i class="fas fa-list"></i>
+            <i class="fas fa-user-circle"></i>
+        </div>
+    </div>
+
+    <!-- ===== SIDEBAR ===== -->
+    <div class="sidebar">
+        <div class="menu-item active" id="homeBtn">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </div>
+        <div class="menu-item" id="searchBtn">
+            <i class="fas fa-search"></i>
+            <span>Search</span>
+        </div>
+        <div class="menu-item" id="radioBtn">
+            <i class="fas fa-broadcast-tower"></i>
+            <span>Radio</span>
+        </div>
+        <div class="menu-item" id="categoryBtn">
+            <i class="fas fa-th-large"></i>
+            <span>Categories</span>
+        </div>
+        <div class="menu-item" id="profileBtn">
+            <i class="fas fa-user-circle"></i>
+            <span>My Space</span>
+        </div>
+    </div>
+
+    <div class="section" id="homeSection">
+        <div class="section-header">
+            <h2>Trending Songs</h2>
+            <div class="nav-btns">
+                <button onclick="scrollLeft()">◀</button>
+                <button onclick="scrollRight()">▶</button>
+            </div>
+        </div>
+        <div class="scroll-container" id="songContainer">
+        </div>
+    </div>
+
+    <div class="full-player-overlay" id="fullPlayer" style="display:none;">
+        <!-- Close Button -->
+        <div class="close-full" onclick="closeFullPlayer()">
+            <i class="fas fa-times"></i>
+        </div>
+
+        <div class="full-player-content">
+            <img id="fullThumb" src="" alt="" class="full-album-art">
+            <h2 id="fullTitle">Song Title</h2>
+            <p id="fullArtist">Artist</p>
+            <div class="progress-container">
+                <span id="currentTime">0:00</span>
+                <input type="range" id="seekBar" min="0" max="100" value="0" oninput="seekTo(this.value)">
+                <span id="duration">0:00</span>
+            </div>
+            <div class="full-controls">
+                <i class="fas fa-random" id="fullShuffle" onclick="toggleShuffle()"></i>
+                <i class="fas fa-backward" onclick="playPrev()"></i>
+                <i class="fas fa-play" id="fullPlayPause" onclick="togglePlayPause()"></i>
+                <i class="fas fa-forward" onclick="playNext()"></i>
+                <i class="fas fa-redo" id="fullRepeat" onclick="toggleRepeat()"></i>
+            </div>
+            <div class="full-volume">
+                <i class="fas fa-volume-down"></i>
+                <input type="range" id="fullVolumeSlider" min="0" max="100" value="70"
+                    oninput="changeVolume(this.value)">
+            </div>
+        </div>
+    </div>
+
+    <!-- jsmediatags for reading ID3 tags -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.7/jsmediatags.min.js"></script>
+    <!-- AOS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Main script -->
+
+
+<div class="section" id="searchSection" style="display:none;">
+    <h2>Search</h2>
+
+    <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Search songs or artists..."
+        style="width:100%;padding:12px;margin:20px 0;border-radius:10px;border:none;background:#222;color:#fff;font-size:16px;"
+    >
+
+    <div id="searchResults" class="scroll-container"></div>
+</div>
+<div class="section" id="radioSection" style="display:none;">
+    <button onclick="startRadio()">Start Radio</button>
+</div>
+<div class="section" id="categorySection" style="display:none;">Categories</div>
+<div class="section" id="profileSection" style="display:none;">My Space</div>
+
+    <script src="script1.js"></script>
+</body>
+
+</html>
