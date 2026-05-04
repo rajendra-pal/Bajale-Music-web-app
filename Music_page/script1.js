@@ -25,6 +25,13 @@ let radioQueue = [];
 let radioHistory = [];
 const MAX_HISTORY = 5;
 
+const categories = [
+    "Romantic","Sad","Party","Classical","Lo-fi","Workout","Chill","Focus","Travel","Retro",
+    "Sleep","Devotional","Hip-Hop","EDM","Jazz","Rock","Pop","Indie","Bollywood","Instrumental",   
+];
+renderCategories();
+
+
 const themes = [
     { name: 'Warm Gold', bg: '#0a0a0f', filament: '#ff7700', filamentCore: '#ffbb44', ambientOuter: '#ff7700', ambientInner: '#ffaa00', glassEdge: '#ff9900', glassBounce: '#ffaa00', junctionGlow: '#ffaa00', dropShadowColor: 'rgba(255, 170, 0, 0.6)' },
     { name: 'Cyan', bg: '#0a1414', filament: '#00ccdd', filamentCore: '#44eeff', ambientOuter: '#00ccdd', ambientInner: '#00e5ff', glassEdge: '#00ccdd', glassBounce: '#00ccdd', junctionGlow: '#00e5ff', dropShadowColor: 'rgba(0, 240, 255, 0.6)' },
@@ -163,14 +170,16 @@ async function scanMusicFolder() {
         const res = await fetch('assets/songs.json');
         const files = await res.json();
 
-        for (let songData of files) {
+    for (let songData of files) {
     const name = songData.file;
 
     try {
-        const resp = await fetch(name, { method: 'HEAD' });
+        const safeName = encodeURI(name);
+
+        const resp = await fetch(safeName, { method: "HEAD" });
 
         if (resp.ok) {
-            const meta = await readID3Tags(name);
+            const meta = await readID3Tags(safeName);
 
             const thumb = meta.picture || generateThumbnail(
                 meta.title,
@@ -178,7 +187,7 @@ async function scanMusicFolder() {
             );
 
             songList.push({
-                file: name,
+                file: safeName,
                 title: meta.title,
                 artist: songData.artist || meta.artist,
                 genre: songData.genre || "unknown",
@@ -193,6 +202,7 @@ async function scanMusicFolder() {
 
         console.log('Total songs found:', songList.length);
         renderSongCards();
+        renderMySongs();
 
     } catch (err) {
         console.error("Failed to load songs.json", err);
@@ -222,8 +232,8 @@ function renderSongCards() {
     if (typeof AOS !== 'undefined') AOS.refresh();
 }
 
-function playSong(index) {
-    isRadioMode = false;
+function playSong(index, fromRadio = false) {
+    if (!fromRadio) isRadioMode = false;
     if (index < 0 || index >= songList.length) return;
     const song = songList[index];
 
@@ -287,6 +297,9 @@ function togglePlayPause() {
     if (isPlaying) {
         currentAudio.pause();
         isPlaying = false;
+        document.querySelectorAll('.card').forEach(card => {
+        card.classList.remove('playing-card');
+    });
     } else {
         currentAudio.play();
         isPlaying = true;
@@ -324,6 +337,10 @@ function updateUI() {
         const btn = card.querySelector('.play-btn');
         if (btn) btn.textContent = (i === currentSongIndex && isPlaying) ? '⏸' : '▶';
         card.classList.toggle('active', i === currentSongIndex && isPlaying);
+        card.classList.remove('playing-card');
+        if (i === currentSongIndex && isPlaying) {
+        card.classList.add('playing-card');
+    }
     });
 
     const sh = document.getElementById('shuffleBtn');
@@ -415,8 +432,27 @@ function updateVolumeUI() {
 }
 
 // ---------- SCROLL ----------
-function scrollLeft() { if (songContainer) songContainer.scrollBy({ left: -300, behavior: 'smooth' }); }
-function scrollRight() { if (songContainer) songContainer.scrollBy({ left: 300, behavior: 'smooth' }); }
+function scrollSongsLeft() {
+    const container = document.getElementById("songContainer");
+    const card = container.querySelector(".card");
+
+    if (!card) return;
+
+    const cardWidth = card.offsetWidth + 20;
+
+    container.scrollLeft -= cardWidth * 2;
+}
+
+function scrollSongsRight() {
+    const container = document.getElementById("songContainer");
+    const card = container.querySelector(".card");
+
+    if (!card) return;
+
+    const cardWidth = card.offsetWidth + 20;
+
+    container.scrollLeft += cardWidth * 2;
+}
 
 // ---------- EVENTS ----------
 bulbContainer.addEventListener('click', changeTheme);
@@ -441,8 +477,7 @@ updateVolumeUI();
 AOS.init();
 loadBulbSVG();
 scanMusicFolder();
-
-
+// setTimeout(generateCategories, 500);
 
 // -------------------------------------------------------------------------------------------------------------------------------------
 let audioContext, analyser, source;
@@ -469,6 +504,15 @@ function setupVisualizer(audioElement) {
 
     animateVisualizer();
 }
+
+
+document.getElementById("navCategoryBtn").onclick = () => {
+    showSection("categorySection");
+};
+
+document.getElementById("navMySpaceBtn").onclick = () => {
+    showSection("profileSection");
+};
 
 function animateVisualizer() {
     analyser.getByteFrequencyData(dataArray);
@@ -499,9 +543,22 @@ function animateVisualizer() {
         lastBeatTime = now;
     }
 
+    let bpmSpeed = 6; // default
+
+    // derive speed from intensity
+    bpmSpeed = 4 + (smoothIntensity * 6); // range: 4s to 10s
+
+    updateScrollSpeed(bpmSpeed);
+
     applyProGlow(smoothIntensity, isBeat);
 
     requestAnimationFrame(animateVisualizer);
+}
+
+function updateScrollSpeed(speed) {
+    document.querySelectorAll('.song-title.scroll span').forEach(span => {
+        span.style.animationDuration = `${speed}s`;
+    });
 }
 
 function applyProGlow(intensity, isBeat) {
@@ -554,6 +611,19 @@ function applyProGlow(intensity, isBeat) {
     }
 }
 
+function showSection(sectionId) {
+    document.querySelectorAll(".section").forEach(sec => {
+        sec.style.display = "none";
+    });
+
+    const target = document.getElementById(sectionId);
+    target.style.display = "block";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
 
 const sections = {
     homeBtn: "homeSection",
@@ -567,7 +637,7 @@ Object.keys(sections).forEach(btnId => {
     const btn = document.getElementById(btnId);
 
     btn.addEventListener("click", () => {
-
+        console.log("CLICK:", btnId);
         // remove active class
         document.querySelectorAll(".menu-item").forEach(item => {
             item.classList.remove("active");
@@ -581,12 +651,15 @@ Object.keys(sections).forEach(btnId => {
         });
 
         // show selected section
-        document.getElementById(sections[btnId]).style.display = "block";
+        document.getElementById(sections[btnId]).style.display = "flex";
 
         // 🔥 ADD THIS HERE
         if (btnId === "searchBtn") {
             searchInput.value = "";
             searchResults.innerHTML = "";
+        }
+        if (btnId === "categoryBtn") {
+            renderCategories();
         }
     });
 });
@@ -594,7 +667,8 @@ Object.keys(sections).forEach(btnId => {
 const searchInput = document.getElementById("searchInput");
 const searchResults = document.getElementById("searchResults");
 
-searchInput.addEventListener("input", function () {
+if (searchInput) {
+    searchInput.addEventListener("input", function () {
     const query = this.value.toLowerCase().trim();
 
     searchResults.innerHTML = "";
@@ -628,6 +702,7 @@ searchInput.addEventListener("input", function () {
         searchResults.appendChild(card);
     });
 });
+}
 
 
 function startRadio() {
@@ -663,7 +738,7 @@ function playNextRadio() {
         radioHistory.shift();
     }
 
-    playSong(nextIndex);
+    playSong(nextIndex, true);
 }
 
 function getRecommendedSongIndex(currentIndex) {
@@ -702,4 +777,211 @@ function getRecommendedSongIndex(currentIndex) {
     }
 
     return candidates[Math.floor(Math.random() * candidates.length)].index;
+}
+
+
+function renderMySongs() {
+    const container = document.getElementById("mySongsContainer");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    songList.forEach((song, i) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.onclick = () => playSong(i);
+
+        card.innerHTML = `
+            <img src="${song.picture}">
+            <div class="play-btn">▶</div>
+            <h4>${song.title}</h4>
+            <p>${song.artist}</p>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+
+const dropArea = document.getElementById("dropArea");
+const fileInput = document.getElementById("songFile");
+
+dropArea.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropArea.style.borderColor = "#1db954";
+});
+
+dropArea.addEventListener("dragleave", () => {
+    dropArea.style.borderColor = "#555";
+});
+
+dropArea.addEventListener("drop", (e) => {
+    e.preventDefault();
+    fileInput.files = e.dataTransfer.files;
+});
+
+
+
+function uploadSong() {
+    const file = document.getElementById("songFile").files[0];
+    const artist = document.getElementById("artist").value;
+    const genre = document.getElementById("genre").value;
+
+    const progressBar = document.getElementById("progressBar");
+    const status = document.getElementById("uploadStatus");
+
+    if (!file) {
+        alert("Select a file");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("song", file);
+    formData.append("artist", artist);
+    formData.append("genre", genre);
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "http://localhost:5000/upload", true);
+
+    // 🔥 PROGRESS TRACKING
+    xhr.upload.onprogress = function (e) {
+        if (e.lengthComputable) {
+            const percent = (e.loaded / e.total) * 100;
+            progressBar.style.width = percent + "%";
+            status.innerText = "Uploading... " + Math.round(percent) + "%";
+        }
+    };
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            status.innerText = "Upload successful ✅";
+            progressBar.style.width = "100%";
+
+            // refresh songs
+            scanMusicFolder();
+        } else {
+            status.innerText = "Upload failed ❌";
+        }
+    };
+
+    xhr.onerror = function () {
+        status.innerText = "Server error ❌";
+    };
+
+    xhr.send(formData);
+}
+
+
+function generateCategories() {
+    const grid = document.getElementById("categoryGrid");
+
+    // get unique genres
+    const genres = [...new Set(songList.map(s => s.genre || "unknown"))];
+
+    grid.innerHTML = "";
+
+    genres.forEach((genre, i) => {
+
+        const card = document.createElement("div");
+        card.className = "category-card";
+
+        const gradient = generateGradient(i);
+
+        card.style.background = `linear-gradient(45deg, ${gradient[0]}, ${gradient[1]})`;
+
+        card.innerText = genre.toUpperCase();
+
+        card.onclick = () => showCategorySongs(genre);
+
+        grid.appendChild(card);
+    });
+}
+
+function showCategorySongs(genre) {
+    const container = document.getElementById("categorySongs");
+    const title = document.getElementById("categoryTitle");
+
+    title.innerText = genre.toUpperCase();
+
+    const filtered = songList.filter(s => (s.genre || "unknown") === genre);
+
+    container.innerHTML = "";
+
+    filtered.forEach((song, i) => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.onclick = () => playSong(songList.indexOf(song));
+
+        card.innerHTML = `
+            <img src="${song.picture}">
+            <div class="play-btn">▶</div>
+            <h4>${song.title}</h4>
+            <p>${song.artist}</p>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+function applyScrollingTitles() {
+    document.querySelectorAll('.song-title').forEach(title => {
+        const span = title.querySelector('span');
+
+        const overflow = span.scrollWidth - title.clientWidth;
+
+        if (overflow > 0) {
+            title.classList.add('scroll');
+
+            // 🔥 set dynamic distance
+            span.style.setProperty('--scroll-distance', `-${overflow}px`);
+        } else {
+            title.classList.remove('scroll');
+        }
+    });
+}
+
+
+
+function renderCategories() {
+    console.log("renderCategories called");
+    if (!categories) return;
+    const container = document.getElementById("categoryGrid");
+    const grid = document.getElementById("categoryGrid");
+    if (!grid) return;
+    container.innerHTML = "";
+    grid.innerHTML = "";
+    categories.forEach((cat, index) => {
+        const div = document.createElement("div");
+        div.className = "category-card";
+        div.textContent = cat;
+        // random gradient
+        const gradients = [
+            "linear-gradient(45deg,#ff2d55,#8a2be2)",
+            "linear-gradient(45deg,#00cfff,#ff2d55)",
+            "linear-gradient(45deg,#8a2be2,#00cfff)",
+            "linear-gradient(45deg,#ff7700,#ff2d55)",
+            "linear-gradient(45deg,#00ff88,#00cfff)"
+        ];
+
+        div.style.background = gradients[index % gradients.length];
+        div.innerHTML = `<span>${cat}</span>`;
+        
+        container.appendChild(div);
+        // 🔥 THIS IS WHAT YOU MISSED
+        div.onclick = () => showCategorySongs(cat);
+        grid.appendChild(div);
+    });
+}
+
+function openCategory(category) {
+    console.log("Opening:", category);
+
+    // filter songs based on genre
+    const filtered = songList.filter(song => 
+        song.genre && song.genre.toLowerCase() === category.toLowerCase()
+    );
+
+    renderFilteredSongs(filtered, category);
 }

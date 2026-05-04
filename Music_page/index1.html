@@ -36,7 +36,7 @@
         <div class="nav-left-info" id="navLeftInfo" style="display:none; cursor:pointer;" onclick="openFullPlayer()">
             <img id="navThumb" src="" alt="">
             <div class="nav-song-info">
-                <span id="navTitle">Song Title</span>
+                <span id="navTitle" class="scroll-text">Song Title</span>
                 <span id="navArtist">Artist</span>
             </div>
         </div>
@@ -53,8 +53,8 @@
         <div class="nav-right">
             <i class="fas fa-volume-up"></i>
             <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70">
-            <i class="fas fa-list"></i>
-            <i class="fas fa-user-circle"></i>
+            <i class="fas fa-list" id="navCategoryBtn"></i>
+            <i class="fas fa-user-circle" id="navMySpaceBtn"></i>
         </div>
     </div>
 
@@ -86,8 +86,8 @@
         <div class="section-header">
             <h2>Trending Songs</h2>
             <div class="nav-btns">
-                <button onclick="scrollLeft()">◀</button>
-                <button onclick="scrollRight()">▶</button>
+                <button onclick="scrollSongsLeft()">◀</button>
+                <button onclick="scrollSongsRight()">▶</button>
             </div>
         </div>
         <div class="scroll-container" id="songContainer">
@@ -104,7 +104,7 @@
             <img id="fullThumb" src="" alt="" class="full-album-art">
             <h2 id="fullTitle">Song Title</h2>
             <p id="fullArtist">Artist</p>
-            <div class="progress-container">
+            <div class="player-progress">
                 <span id="currentTime">0:00</span>
                 <input type="range" id="seekBar" min="0" max="100" value="0" oninput="seekTo(this.value)">
                 <span id="duration">0:00</span>
@@ -134,11 +134,8 @@
 <div class="section" id="searchSection" style="display:none;">
     <h2>Search</h2>
 
-    <input 
-        type="text" 
-        id="searchInput" 
-        placeholder="Search songs or artists..."
-        style="width:100%;padding:12px;margin:20px 0;border-radius:10px;border:none;background:#222;color:#fff;font-size:16px;"
+    <input type="text" id="searchInput" placeholder="Search songs or artists..."
+        style="width:80%;padding:12px;margin:20px 0;border-radius:10px;border:none;background:#222;color:#fff;font-size:16px;"
     >
 
     <div id="searchResults" class="scroll-container"></div>
@@ -146,8 +143,62 @@
 <div class="section" id="radioSection" style="display:none;">
     <button onclick="startRadio()">Start Radio</button>
 </div>
-<div class="section" id="categorySection" style="display:none;">Categories</div>
-<div class="section" id="profileSection" style="display:none;">My Space</div>
+<div class="section" id="categorySection" style="display:none;">
+
+    <div class="content-container">
+        <h2>Browse Categories</h2>
+        <div class="category-layout">
+
+    <!-- LEFT: Categories -->
+    <div class="category-grid" id="categoryGrid"></div>
+
+    <!-- RIGHT: Songs Panel -->
+    <div id="categorySongsPanel" class="category-panel">
+        <h3 id="categoryTitle">Select Category</h3>
+        <div id="categorySongs" class="scroll-container"></div>
+    </div>
+
+</div>
+    </div>
+</div>
+<div class="section" id="profileSection" style="display:none;">
+    <h2>My Space</h2>
+
+<!-- Upload Box -->
+ <div class="upload-wrapper">
+    <div class="upload-box">
+
+        <h3>Upload Song</h3>
+
+        <!-- Drag Area -->
+        <div id="dropArea" class="drop-area">
+            <p>Drag & Drop your song</p>
+            <span>or</span>
+            <input type="file" id="songFile" accept=".mp3" hidden>
+            <button onclick="document.getElementById('songFile').click()">Browse</button>
+        </div>
+
+        <input type="text" id="artist" placeholder="Artist name">
+        <input type="text" id="genre" placeholder="Genre (romantic, sad, party...)">
+
+        <!-- Progress -->
+        <div class="progress-container">
+            <div id="progressBar"></div>
+        </div>
+
+        <p id="uploadStatus"></p>
+
+        <button onclick="uploadSong()">Upload</button>
+
+    </div>
+</div>
+
+    <!-- Uploaded Songs -->
+    <div class="my-songs">
+        <h3>Your Songs</h3>
+        <div id="mySongsContainer" class="scroll-container"></div>
+    </div>
+</div>
 
     <script src="script1.js"></script>
 </body>

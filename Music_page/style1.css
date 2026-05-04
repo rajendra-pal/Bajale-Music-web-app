@@ -21,32 +21,36 @@ body {
     top: 0;
     left: 0;
     height: 100vh;
-    width: 70px;
+    width: 80px;
     background: transparent;
     display: flex;
     flex-direction: column;
+    gap: 10px;
     padding-top: 132px;
     padding-left: 10px;
+    padding-right: 10px;
     transition: width 0.3s ease;
-    z-index: 9996;
+    z-index: 9999;
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
 }
 
 .sidebar:hover {
     width: 220px;
+    backdrop-filter: blur(20px);
+    background: rgba(20, 20, 35, 0.8);
 }
 
-.sidebar:hover ~ .section {
-    margin-left: 220px;
-}
 
 .menu-item {
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 14px 20px;
+    padding: 25px 20px;
     cursor: pointer;
     color: #aaa;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    border-radius: 20px;
 }
 
 .menu-item i {
@@ -58,20 +62,26 @@ body {
 .menu-item span {
     opacity: 0;
     white-space: nowrap;
-    transition: 0.3s;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
 }
 
 .sidebar:hover .menu-item span {
     opacity: 1;
+    transform: translateX(0);
 }
 
 .menu-item:hover {
     color: #fff;
     background: rgba(255, 255, 255, 0.05);
+    margin-right: 20px;
 }
 
 .menu-item.active {
-    color: #fff;
+    /* color: #fff; */
+    /* background: rgba(30, 215, 96, 0.15); */
+    color: #1db954;
+    box-shadow: 0 0 20px rgba(30, 215, 96, 0.2);
 }
 
 /* ========== NAVBAR ========== */
@@ -110,10 +120,85 @@ body {
 }
 
 .nav-left-info {
+    width: 200px;
     display: flex;
     align-items: center;
     gap: 12px;
     min-width: 0;
+    
+}
+
+/* scrolling text */
+.scroll-text {
+    display: inline-block;
+    white-space: nowrap;
+    padding-right: 50px;
+    animation: scrollText 10s linear infinite;
+}
+
+/* animation */
+@keyframes scrollText {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.song-title {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* LEFT FADE */
+.song-title::before,
+.song-title::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* left fade */
+.song-title::before {
+    left: 0;
+    background: linear-gradient(to right, #181818, transparent);
+}
+
+/* right fade */
+.song-title::after {
+    right: 0;
+    background: linear-gradient(to left, #181818, transparent);
+}
+
+
+.song-title span {
+    display: inline-block;
+    padding-right: 60px;
+}
+
+/* bounce animation */
+.song-title.scroll span {
+    animation: bounceScroll 6s ease-in-out infinite alternate;
+}
+
+@keyframes bounceScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-100% + 100%));
+    }
+}
+
+.song-title.scroll:hover span {
+    animation-play-state: paused;
 }
 
 .nav-left-info img {
@@ -142,12 +227,59 @@ body {
     color: #aaa;
 }
 
+#musicNavbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+}
+
+/* LEFT */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;   /* 🔥 prevents shift */
+    flex: 0 0 auto;
+}
+
+/* CENTER (IMPORTANT FIX) */
+.nav-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;   /* ✅ FIXED TYPO */
+}
+
+/* RIGHT */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 auto;
+}
+
+.nav-center i {
+    font-size: 20px;
+    min-width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+
 .nav-controls i {
     margin: 0 12px;
     font-size: 18px;
     color: #ccc;
     cursor: pointer;
     transition: 0.3s;
+    /* width: 100%; */
 }
 
 .nav-controls i:hover {
@@ -323,16 +455,87 @@ body {
 
 /* ========== MAIN CONTENT ========== */
 .section {
-    padding: 20px 30px;
-    margin-left: 70px;   /* 🔥 move offset here */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 80px;
+    /* width: calc(100% - 70px); */
+}
+
+.category-card {
+    width: 250px;
+    height: 130px;
+    border-radius: 18px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    color: white;
+
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+.category-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+}
+
+.category-card {
+    height: 120px;
+    border-radius: 15px;
+    display: flex;
+    align-items: flex-end;
+    padding: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    transition: 0.3s;
+}
+
+.category-card:hover {
+    transform: scale(1.05);
+}
+
+.category-layout {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.category-panel {
+    display: none;
+    width: 400px;
 }
 
 .section-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 20px;
     margin-top: 35px;
+    gap: 20px;
+}
+
+.nav-btns {
+    position: absolute;
+    right: 30px;
+    top: 25%;
+    transform: translateY(-50%);
 }
 
 .nav-btns button {
@@ -351,15 +554,59 @@ body {
     color: black;
 }
 
+#categoryTitle {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 250px);  /* 🔥 fixed columns */
+    gap: 25px;
+    justify-content: center;                 /* 🔥 center grid */
+    margin-top: 30px;
+}
+
 .scroll-container {
-        display: flex;
+    /* margin-left: 50px; */
+    display: flex;
+    width: 100%;
     gap: 20px;
     overflow-x: auto;
-    padding-bottom: 10px;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 40px;
     flex-direction: row;
-    flex-wrap: wrap;
+    scroll-snap-type: x mandatory;
+    /* flex-wrap: wrap; */
     justify-content: flex-start;
     align-items: flex-start;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scroll-container {
+    mask-image: linear-gradient(to right, transparent, black 0%, black 95%, transparent);
+}
+
+.content-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#mySongsContainer {
+    position: relative;
+    margin-left: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.section-header h2 {
+    margin-left: 10px;
 }
 
 .scroll-container::-webkit-scrollbar {
@@ -372,16 +619,19 @@ body {
     max-width: 180px;          /* 🔥 prevent expansion */
     background: #181818;
     border-radius: 14px;
+    display: inline-block;
     padding: 15px;
     flex-shrink: 0;
     position: relative;
     transition: 0.3s;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    scroll-snap-align: start;
 }
 
 .card:hover {
     background: #282828;
     transform: scale(1.05);
+
 }
 
 .card img {
@@ -434,6 +684,17 @@ body {
     border: 2px solid #1db954;
 }
 
+.playing-card {
+    border: 2px solid #1db954;
+
+    box-shadow:
+        0 0 00px rgba(30, 215, 96, 0.6),
+        0 0 20px rgba(30, 215, 96, 0.4),
+        0 0 50px rgba(30, 215, 96, 0.2);
+
+    transition: all 0.3s ease;
+}
+
 /* ========== FULL-SCREEN PLAYER ========== */
 .full-player-overlay {
     position: fixed;
@@ -478,6 +739,29 @@ body {
     margin-bottom: 5px;
 }
 
+h2 {
+    text-align: center;
+}
+
+.player-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 25px 0;
+    width: 100%;
+    color: #ccc;
+}
+
+.player-progress span {
+    min-width: 45px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.player-progress input {
+    flex: 1;
+}
+
 .full-player-content p {
     color: #aaa;
     margin-bottom: 20px;
@@ -486,7 +770,7 @@ body {
 .progress-container {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 1px;
     margin-bottom: 20px;
     color: #aaa;
 }
@@ -552,4 +836,147 @@ body {
 
 .close-full i {
     font-size: 24px;
+}
+
+.upload-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;   /* 🔥 center horizontally */
+    /* align-items: center; */
+    margin: 20px 0 50px 0;
+}
+
+
+.upload-box {
+    /* background: #181818;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 0 auto;      
+    width: 320px;
+    max-width: 350px;
+    margin-bottom: 30px; */
+
+    width: 350px;
+    padding: 25px;
+    border-radius: 20px;
+    background: rgba(20, 20, 30, 0.6);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 40px rgba(0,0,0,0.6);
+}
+.upload-box h3 {
+    margin-bottom: 15px;
+}
+
+/* Drag Area */
+.drop-area {
+    border: 2px dashed #555;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    margin-bottom: 15px;
+    transition: 0.3s;
+}
+
+.drop-area:hover {
+    border-color: #1db954;
+    background: rgba(29,185,84,0.1);
+}
+
+.drop-area button {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background: #1db954;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.upload-box input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #222;
+    color: white;
+}
+
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    height: 8px;
+    background: #222;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+#progressBar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #1db954, #00ffcc);
+    transition: width 0.2s;
+}
+
+/* Upload Button */
+.upload-box button:last-child {
+    width: 100%;
+    padding: 12px;
+    background: #1db954;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.upload-box button:last-child:hover {
+    background: #17a44c;
+}
+
+#uploadStatus {
+    font-size: 13px;
+    color: #aaa;
+}
+
+.upload-box button {
+    width: 100%;
+    padding: 10px;
+    background: #1db954;
+    border: none;
+    margin-top: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.upload-box button:hover {
+    background: #17a44c;
+}
+
+.my-songs h3 {
+    position: relative;
+    left: 10%;
+    margin-bottom: 15px;
+}
+
+#categoryGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 40px auto;   /* center */
+}
+
+
+.category-panel {
+    display: block;   /* 🔥 important */
+    width: 400px;
+}
+
+.category-layout {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
 }

@@ -25,8 +25,13 @@
     "genre": "sad"
   },
   {
-    "file": "assets/songs/Rabindra_Sangeet.mp3",
+    "file": "assets/songs/Rabindra Sangeet 1 hour long song.mp3",
     "artist": "Rabindra",
+    "genre": "classical"
+  },
+  {
+    "file": "assets/songs/Bulbuli.mp3",
+    "artist": "Ritu Raj & Nandita",
     "genre": "classical"
   }
 ]
